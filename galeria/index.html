@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Soltem os Lobos - Galeria</title>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=JetBrains+Mono:wght@400;600&family=Inter:wght@400;600;900&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  body{font-family: Inter, system-ui; background:#09090b; color:#e4e4e7;}
+  .stencil{font-family: JetBrains Mono, monospace; text-transform:uppercase; letter-spacing:0.14em;}
+  .brush-title{font-family: Anton, sans-serif; line-height:0.9;}
+  .mono{font-family: JetBrains Mono, monospace;}
+  .hidden-section{display:none;}
+  .open-section{display:block; animation: fadeIn 0.3s ease;}
+  @keyframes fadeIn{from{opacity:0; transform:translateY(-6px)} to{opacity:1; transform:translateY(0)}}
+  .lightbox-img{cursor:zoom-in; transition:transform 0.2s}
+  .lightbox-img:hover{transform:scale(1.02)}
+  #lightbox{backdrop-filter: blur(12px);}
+</style>
+</head>
+<body class="bg-zinc-950">
+<header class="sticky top-0 z-50 bg-zinc-950/90 backdrop-blur border-b border-zinc-800">
+  <div class="max-w-[1240px] mx-auto px-6 md:px-10 h-[64px] flex items-center justify-between">
+    <a href="../" class="flex items-center gap-2"><div class="w-8 h-8 rounded-full bg-white text-black grid place-items-center font-black text-[12px]">SL</div><span class="stencil text-[11px] text-zinc-100">SOLTEM OS LOBOS</span></a>
+    <a href="../" class="h-[36px] px-5 rounded-full bg-zinc-900 border border-zinc-800 text-[11px] stencil text-zinc-300 inline-flex items-center justify-center leading-none gap-1.5">← BOOKING</a>
+  </div>
+</header>
+<main class="max-w-[1240px] mx-auto px-6 md:px-10 pt-10 pb-20">
+  <div class="mb-10">
+    <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white text-black text-[10px] tracking-[0.18em] stencil mb-6"><span class="w-1.5 h-1.5 rounded-full bg-red-600 animate-pulse"></span>2 CONCERTOS • CLICA EM ABRIR</div>
+    <h1 class="brush-title text-[48px] md:text-[78px] text-white uppercase">Soltem<br><span class="text-zinc-400">Ao Vivo</span></h1>
+    <p class="mono text-[13px] text-zinc-400 mt-4">Galeria organizada por concerto. Clica em <span class="text-white">ABRIR</span> para ver os vídeos e fotos. <span class="text-white">Clica nas fotos para ampliar.</span></p>
+  </div>
+
+  <!-- CONCERTO 01 -->
+  <section class="mb-6 border border-zinc-800 rounded-[18px] overflow-hidden bg-zinc-900/30">
+    <div class="flex flex-wrap items-center justify-between gap-4 p-5 md:p-6">
+      <div class="flex-1 min-w-[240px]">
+        <h2 class="stencil text-[13px] md:text-[14px] tracking-[0.15em] text-white leading-[1.3]">01 • PROJETO RESTAURANTE SABOR DE MINAS • 10 OUT 2026</h2>
+        <div id="count-sabor" class="mono text-[11px] text-zinc-500 mt-1">a verificar ficheiros…</div>
+      </div>
+      <div class="flex items-center gap-3">
+        <span class="text-[10px] px-3 py-1 rounded-full bg-white text-black stencil font-bold hidden md:inline">RESTAURANTE</span>
+        <button onclick="toggleConcert('sabor')" id="btn-sabor" class="h-[38px] px-6 rounded-full bg-white text-black text-[11px] stencil font-bold hover:bg-zinc-200 transition flex items-center gap-2">ABRIR <span id="icon-sabor">↓</span></button>
+      </div>
+    </div>
+    <div id="content-sabor" class="hidden-section border-t border-zinc-800 p-5 md:p-6 bg-zinc-950">
+      <div id="videos-sabor" class="grid md:grid-cols-2 gap-4 mb-8"></div>
+      <div class="flex items-center gap-2 mb-3"><span class="stencil text-[11px] text-zinc-500">FOTOS • SABOR DE MINAS</span><span class="h-px flex-1 bg-zinc-800"></span></div>
+      <div id="fotos-sabor" class="grid grid-cols-2 md:grid-cols-4 gap-3"></div>
+    </div>
+  </section>
+
+  <!-- CONCERTO 02 -->
+  <section class="mb-6 border border-zinc-800 rounded-[18px] overflow-hidden bg-zinc-900/30">
+    <div class="flex flex-wrap items-center justify-between gap-4 p-5 md:p-6">
+      <div class="flex-1 min-w-[240px]">
+        <h2 class="stencil text-[13px] md:text-[14px] tracking-[0.15em] text-white leading-[1.3]">02 • CONCERTO PARA A CRISTINA • 17 OUT 2026</h2>
+        <div id="count-cristina" class="mono text-[11px] text-zinc-500 mt-1">a verificar ficheiros…</div>
+      </div>
+      <div class="flex items-center gap-3">
+        <span class="text-[10px] px-3 py-1 rounded-full bg-zinc-900 border border-zinc-800 text-zinc-400 stencil hidden md:inline">PRIVADO</span>
+        <button onclick="toggleConcert('cristina')" id="btn-cristina" class="h-[38px] px-6 rounded-full bg-white text-black text-[11px] stencil font-bold hover:bg-zinc-200 transition flex items-center gap-2">ABRIR <span id="icon-cristina">↓</span></button>
+      </div>
+    </div>
+    <div id="content-cristina" class="hidden-section border-t border-zinc-800 p-5 md:p-6 bg-zinc-950">
+      <div id="videos-cristina" class="grid md:grid-cols-2 gap-4 mb-8"></div>
+      <div class="flex items-center gap-2 mb-3"><span class="stencil text-[11px] text-zinc-500">FOTOS • CRISTINA</span><span class="h-px flex-1 bg-zinc-800"></span></div>
+      <div id="fotos-cristina" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3"></div>
+    </div>
+  </section>
+
+  <div class="mt-16 rounded-[18px] bg-white text-black p-6 md:p-8 flex flex-col md:flex-row justify-between gap-4">
+    <div><div class="stencil text-[10px] text-zinc-500">VISTE OS CONCERTOS?</div><div class="text-[22px] font-black stencil mt-1">SOLTEM OS LOBOS • AO VIVO</div></div>
+    <a href="https://wa.me/351938066695?text=Ol%C3%A1%20Soltem%20os%20Lobos!%20Vi%20a%20galeria." target="_blank" class="h-[44px] px-6 rounded-full bg-black text-white text-[12px] stencil inline-flex items-center justify-center">PEDIR DISPONIBILIDADE</a>
+  </div>
+</main>
+
+<!-- LIGHTBOX -->
+<div id="lightbox" class="fixed inset-0 z-[100] bg-black/95 backdrop-blur hidden flex-col items-center justify-center p-4 md:p-10" onclick="closeLightbox()">
+  <button class="absolute top-4 right-4 w-10 h-10 rounded-full bg-zinc-800 text-white grid place-items-center">✕</button>
+  <img id="lightbox-img" src="" class="max-w-full max-h-[90vh] object-contain rounded-[12px] border border-zinc-800">
+  <div class="mono text-[11px] text-zinc-500 mt-4">Clica fora ou no X para fechar</div>
+</div>
+
+<script>
+function toggleConcert(id) {
+  const content = document.getElementById('content-' + id);
+  const btn = document.getElementById('btn-' + id);
+  const isHidden = content.classList.contains('hidden-section');
+  if (isHidden) {
+    content.classList.remove('hidden-section');
+    content.classList.add('open-section');
+    btn.innerHTML = 'FECHAR <span id="icon-' + id + '">↑</span>';
+    btn.classList.remove('bg-white','text-black');
+    btn.classList.add('bg-zinc-800','text-white','border','border-zinc-700');
+  } else {
+    content.classList.add('hidden-section');
+    content.classList.remove('open-section');
+    btn.innerHTML = 'ABRIR <span id="icon-' + id + '">↓</span>';
+    btn.classList.add('bg-white','text-black');
+    btn.classList.remove('bg-zinc-800','text-white','border','border-zinc-700');
+    content.querySelectorAll('video').forEach(v => v.pause());
+  }
+}
+function openLightbox(src){
+  document.getElementById('lightbox-img').src = src;
+  document.getElementById('lightbox').classList.remove('hidden');
+  document.getElementById('lightbox').classList.add('flex');
+  document.body.style.overflow='hidden';
+}
+function closeLightbox(){
+  document.getElementById('lightbox').classList.add('hidden');
+  document.getElementById('lightbox').classList.remove('flex');
+  document.body.style.overflow='';
+  document.getElementById('lightbox-img').src='';
+}
+
+// ===== GALERIA AUTOMÁTICA =====
+// Procura video1, video2, ... e foto1, foto2, ... em cada pasta.
+// Para acrescentar um ficheiro novo basta pô-lo na pasta com o número seguinte.
+const CONCERTS = {
+  sabor:    { videos: 'videos/projeto_restaurante_sabor_de_minas/', fotos: 'fotos/projeto_restaurante_sabor_de_minas/' },
+  cristina: { videos: 'videos/concerto_para_a_cristina/',           fotos: 'fotos/concerto_para_a_cristina/' }
+};
+const EXT_VIDEO = ['mp4', 'MP4', 'mov', 'MOV', 'webm'];
+const EXT_FOTO  = ['jpg', 'JPG', 'jpeg', 'JPEG', 'png', 'PNG', 'webp'];
+const LOTE = 10;      // quantos números testa em simultâneo
+const MAXIMO = 100;   // limite de segurança
+
+async function existe(url) {
+  try {
+    const r = await fetch(url, { method: 'HEAD', cache: 'no-cache' });
+    return r.ok;
+  } catch (e) { return false; }
+}
+
+// devolve o URL do primeiro ficheiro que existir para este número, ou null
+async function encontrar(pasta, nome, i, extensoes) {
+  for (const ext of extensoes) {
+    const url = pasta + nome + i + '.' + ext;
+    if (await existe(url)) return url;
+  }
+  return null;
+}
+
+async function listar(pasta, nome, extensoes) {
+  const achados = [];
+  for (let ini = 1; ini <= MAXIMO; ini += LOTE) {
+    const nums = Array.from({ length: LOTE }, (_, k) => ini + k);
+    const res = await Promise.all(nums.map(n => encontrar(pasta, nome, n, extensoes)));
+    const hits = res.filter(Boolean);
+    if (!hits.length) break;
+    achados.push(...hits);
+  }
+  return achados;
+}
+
+function criarVideo(url) {
+  const box = document.createElement('div');
+  box.className = 'relative rounded-[14px] overflow-hidden bg-black border border-zinc-800 aspect-[16/9]';
+
+  const v = document.createElement('video');
+  v.controls = true;
+  v.setAttribute('playsinline', '');
+  v.setAttribute('webkit-playsinline', '');
+  v.preload = 'metadata';
+  v.className = 'w-full h-full object-contain';
+  v.src = url;
+
+  // botão de play por cima (garante que há sempre um botão visível no telemóvel)
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.setAttribute('aria-label', 'Reproduzir vídeo');
+  btn.innerHTML = '▶';
+  btn.className = 'absolute inset-0 m-auto w-16 h-16 rounded-full bg-white/90 text-black text-[24px] pl-1 grid place-items-center shadow-lg z-10';
+  btn.addEventListener('click', () => { v.play().catch(() => {}); });
+
+  v.addEventListener('play',  () => { 
+    btn.style.display = 'none';
+    // PAUSA TODOS OS OUTROS VÍDEOS
+    document.querySelectorAll('video').forEach(other => {
+      if(other !== v){ other.pause(); }
+    });
+  });
+  v.addEventListener('pause', () => { btn.style.display = ''; });
+  v.addEventListener('ended', () => { btn.style.display = ''; });
+
+  // se o telemóvel não conseguir ler o vídeo, avisa em vez de ficar em branco
+  v.addEventListener('error', () => {
+    btn.style.display = 'none';
+    const cod = v.error ? v.error.code : '?';
+    const aviso = document.createElement('div');
+    aviso.className = 'absolute inset-0 flex flex-col items-center justify-center gap-2 text-center p-4 mono text-[11px] text-zinc-400 bg-zinc-950/80 z-20';
+    aviso.innerHTML = 'Este vídeo não pode ser reproduzido neste dispositivo.<br>(erro ' + cod + ')<br>' +
+      '<a href="' + url + '" target="_blank" class="underline text-white">Abrir ficheiro</a>';
+    box.appendChild(aviso);
+  });
+
+  box.appendChild(v);
+  box.appendChild(btn);
+  return box;
+}
+
+function criarFoto(url) {
+  const img = document.createElement('img');
+  img.src = url;
+  img.loading = 'lazy';
+  img.className = 'lightbox-img w-full aspect-square object-cover rounded-[12px] bg-zinc-900 border border-zinc-800';
+  img.addEventListener('click', () => openLightbox(img.src));
+  return img;
+}
+
+async function carregarConcerto(id) {
+  const c = CONCERTS[id];
+  const contagem = document.getElementById('count-' + id);
+  const [videos, fotos] = await Promise.all([
+    listar(c.videos, 'video', EXT_VIDEO),
+    listar(c.fotos, 'foto', EXT_FOTO)
+  ]);
+  const gv = document.getElementById('videos-' + id);
+  const gf = document.getElementById('fotos-' + id);
+  videos.forEach(u => gv.appendChild(criarVideo(u)));
+  fotos.forEach(u => gf.appendChild(criarFoto(u)));
+  if (!videos.length) gv.remove();
+  contagem.textContent = videos.length + (videos.length === 1 ? ' vídeo' : ' vídeos') + ' • ' +
+                         fotos.length + (fotos.length === 1 ? ' foto' : ' fotos');
+}
+
+Object.keys(CONCERTS).forEach(carregarConcerto);
+
+document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeLightbox(); });
+</script>
+</body>
+</html>
