@@ -143,11 +143,14 @@ async function existe(url) {
 
 // devolve o URL do primeiro ficheiro que existir para este número, ou null
 async function encontrar(pasta, nome, i, extensoes) {
-  for (const ext of extensoes) {
-    const url = pasta + nome + i + '.' + ext;
-    if (await existe(url)) return url;
-  }
-  return null;
+  const resultados = await Promise.all(
+    extensoes.map(async ext => {
+      const url = pasta + nome + i + '.' + ext;
+      return (await existe(url)) ? url : null;
+    })
+  );
+
+  return resultados.find(url => url !== null) || null;
 }
 
 async function listar(pasta, nome, extensoes) {
