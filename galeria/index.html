@@ -220,13 +220,42 @@ function criarFoto(url) {
   return img;
 }
 
+// Para concertos futuros, podes indicar um ficheiro JSON na propriedade "indice".
+// Sem "indice", mantém-se a pesquisa automática por foto1, video1, etc.
+async function ficheirosDoConcerto(c) {
+  if (!c.indice) {
+    return Promise.all([
+      listar(c.videos, 'video', EXT_VIDEO),
+      listar(c.fotos, 'foto', EXT_FOTO)
+    ]);
+  }
+
+  const resposta = await fetch(c.indice, { cache: 'no-cache' });
+  if (!resposta.ok) throw new Error('Não foi possível abrir ' + c.indice);
+  const dados = await resposta.json();
+  if (!Array.isArray(dados.videos) || !Array.isArray(dados.fotos)) {
+    throw new Error('O índice precisa de listas "videos" e "fotos".');
+  }
+  const urls = (pasta, nomes) => nomes.map(nome => {
+    if (typeof nome !== 'string' || !nome || nome.includes('/') || nome.includes('\\') || nome === '.' || nome === '..') {
+      throw new Error('Nome de ficheiro inválido no índice.');
+    }
+    return pasta + encodeURIComponent(nome);
+  });
+  return [urls(c.videos, dados.videos), urls(c.fotos, dados.fotos)];
+}
+
 async function carregarConcerto(id) {
   const c = CONCERTS[id];
   const contagem = document.getElementById('count-' + id);
-  const [videos, fotos] = await Promise.all([
-    listar(c.videos, 'video', EXT_VIDEO),
-    listar(c.fotos, 'foto', EXT_FOTO)
-  ]);
+  let videos, fotos;
+  try {
+    [videos, fotos] = await ficheirosDoConcerto(c);
+  } catch (erro) {
+    console.error('Erro ao carregar concerto:', id, erro);
+    contagem.textContent = 'Não foi possível carregar os ficheiros.';
+    return;
+  }
   const gv = document.getElementById('videos-' + id);
   const gf = document.getElementById('fotos-' + id);
   videos.forEach(u => gv.appendChild(criarVideo(u)));
