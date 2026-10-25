@@ -2,7 +2,7 @@
 <html lang="pt">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1"> 
 <title>Soltem os Lobos - Galeria</title>
 
 <link rel="icon" type="image/x-icon" href="../favicon_final.ico?v=2">
@@ -85,7 +85,9 @@
 <!-- LIGHTBOX -->
 <div id="lightbox" class="fixed inset-0 z-[100] bg-black/95 backdrop-blur hidden flex-col items-center justify-center p-4 md:p-10" onclick="closeLightbox()">
   <button class="absolute top-4 right-4 w-10 h-10 rounded-full bg-zinc-800 text-white grid place-items-center">✕</button>
-  <img id="lightbox-img" src="" class="max-w-full max-h-[90vh] object-contain rounded-[12px] border border-zinc-800">
+  <button id="lightbox-prev" type="button" aria-label="Fotografia anterior" onclick="event.stopPropagation(); mudarFoto(-1)" class="absolute left-2 md:left-6 top-1/2 -translate-y-1/2 z-10 w-11 h-11 rounded-full bg-zinc-800/90 text-white text-2xl grid place-items-center">‹</button>
+  <img id="lightbox-img" src="" class="max-w-[calc(100%-6rem)] max-h-[90vh] object-contain rounded-[12px] border border-zinc-800" onclick="event.stopPropagation()">
+  <button id="lightbox-next" type="button" aria-label="Fotografia seguinte" onclick="event.stopPropagation(); mudarFoto(1)" class="absolute right-2 md:right-6 top-1/2 -translate-y-1/2 z-10 w-11 h-11 rounded-full bg-zinc-800/90 text-white text-2xl grid place-items-center">›</button>
   <div class="mono text-[11px] text-zinc-500 mt-4">Clica fora ou no X para fechar</div>
 </div>
 
@@ -109,17 +111,34 @@ function toggleConcert(id) {
     content.querySelectorAll('video').forEach(v => v.pause());
   }
 }
-function openLightbox(src){
-  document.getElementById('lightbox-img').src = src;
+let fotosLightbox = [];
+let indiceLightbox = 0;
+function openLightbox(src, concertoId){
+  fotosLightbox = Array.from(document.querySelectorAll('#fotos-' + concertoId + ' img'), img => img.src);
+  indiceLightbox = fotosLightbox.indexOf(src);
+  if (indiceLightbox < 0) indiceLightbox = 0;
+  atualizarLightbox();
   document.getElementById('lightbox').classList.remove('hidden');
   document.getElementById('lightbox').classList.add('flex');
   document.body.style.overflow='hidden';
+}
+function atualizarLightbox(){
+  document.getElementById('lightbox-img').src = fotosLightbox[indiceLightbox] || '';
+  const mostrarSetas = fotosLightbox.length > 1;
+  document.getElementById('lightbox-prev').classList.toggle('hidden', !mostrarSetas);
+  document.getElementById('lightbox-next').classList.toggle('hidden', !mostrarSetas);
+}
+function mudarFoto(direcao){
+  if (fotosLightbox.length < 2) return;
+  indiceLightbox = (indiceLightbox + direcao + fotosLightbox.length) % fotosLightbox.length;
+  atualizarLightbox();
 }
 function closeLightbox(){
   document.getElementById('lightbox').classList.add('hidden');
   document.getElementById('lightbox').classList.remove('flex');
   document.body.style.overflow='';
   document.getElementById('lightbox-img').src='';
+  fotosLightbox = [];
 }
 
 // ===== GALERIA AUTOMÁTICA =====
@@ -211,12 +230,12 @@ function criarVideo(url) {
   return box;
 }
 
-function criarFoto(url) {
+function criarFoto(url, concertoId) {
   const img = document.createElement('img');
   img.src = url;
   img.loading = 'lazy';
   img.className = 'lightbox-img w-full aspect-square object-cover rounded-[12px] bg-zinc-900 border border-zinc-800';
-  img.addEventListener('click', () => openLightbox(img.src));
+  img.addEventListener('click', () => openLightbox(img.src, concertoId));
   return img;
 }
 
@@ -259,7 +278,7 @@ async function carregarConcerto(id) {
   const gv = document.getElementById('videos-' + id);
   const gf = document.getElementById('fotos-' + id);
   videos.forEach(u => gv.appendChild(criarVideo(u)));
-  fotos.forEach(u => gf.appendChild(criarFoto(u)));
+  fotos.forEach(u => gf.appendChild(criarFoto(u, id)));
   if (!videos.length) gv.remove();
   contagem.textContent = videos.length + (videos.length === 1 ? ' vídeo' : ' vídeos') + ' • ' +
                          fotos.length + (fotos.length === 1 ? ' foto' : ' fotos');
@@ -267,7 +286,12 @@ async function carregarConcerto(id) {
 
 Object.keys(CONCERTS).forEach(carregarConcerto);
 
-document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeLightbox(); });
+document.addEventListener('keydown', (e) => {
+  if (document.getElementById('lightbox').classList.contains('hidden')) return;
+  if (e.key === 'Escape') closeLightbox();
+  if (e.key === 'ArrowLeft') mudarFoto(-1);
+  if (e.key === 'ArrowRight') mudarFoto(1);
+});
 </script>
 </body>
 </html>
