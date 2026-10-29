@@ -270,5 +270,54 @@ Error generating stack: `+p.message+`
  requestAnimationFrame(()=>requestAnimationFrame(fitAtitude));
 })();
 </script>
+
+<style id="lobos-copyright-style">
+#lobos-copyright-footer{max-width:1240px;margin:0 auto;padding:22px 20px 30px;border-top:1px solid #27272a;color:#a1a1aa;text-align:center;font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;font-size:12px;line-height:1.6;letter-spacing:.02em}
+#lobos-copyright-footer strong{color:#e4e4e7;font-weight:600}
+@media(max-width:640px){#lobos-copyright-footer{padding:20px 16px 26px;font-size:11px}}
+</style>
+<footer id="lobos-copyright-footer" aria-label="Direitos de autor">
+  © 2026 <strong>Soltem os Lobos</strong>. Todos os direitos reservados.
+</footer>
+
+<style id="lobos-mobile-title-css">
+/* Só no telemóvel/tablet: título antes da fotografia. Desktop inalterado. */
+#lobos-mobile-title{display:none}
+@media(max-width:1023px){
+ #lobos-mobile-title{display:block;order:-1;margin:0 0 4px;padding:0;min-width:0}
+ #lobos-mobile-title .brush-title{margin:0;font-size:clamp(48px,11vw,84px);line-height:.95}
+ #lobos-mobile-title .lobos-mobile-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;background:#fff;color:#000;font-size:10px;letter-spacing:.18em;margin-bottom:18px}
+ #lobos-mobile-title .lobos-mobile-dot{width:6px;height:6px;border-radius:50%;background:#111}
+ #lobos-mobile-title + .relative.group{order:0}
+ #lobos-mobile-title ~ .lg\:pl-2 > h1.brush-title{display:none}
+ #lobos-mobile-title ~ .lg\:pl-2 > .inline-flex{display:none}
+}
+</style>
+<script id="lobos-mobile-title-js">
+(function(){
+ function fixMobileTitle(){
+  const root=document.getElementById('root');
+  const photo=root&&root.querySelector('img[alt="Soltem Os Lobos"]');
+  if(!photo)return;
+  const photoCol=photo.closest('.relative.group');
+  if(!photoCol||!photoCol.parentElement)return;
+  const grid=photoCol.parentElement;
+  let title=document.getElementById('lobos-mobile-title');
+  if(!title){
+   const original=grid.querySelector('h1.brush-title');
+   if(!original)return;
+   title=document.createElement('div');title.id='lobos-mobile-title';
+   const badge=document.createElement('div');badge.className='lobos-mobile-badge stencil';
+   badge.innerHTML='<span class="lobos-mobile-dot"></span>BOOKING ABERTO 2026';
+   title.appendChild(badge);
+   title.appendChild(original.cloneNode(true));
+  }
+  if(title.parentElement!==grid||title.nextElementSibling!==photoCol)grid.insertBefore(title,photoCol);
+ }
+ const root=document.getElementById('root');
+ if(root){new MutationObserver(()=>{if(!document.getElementById('lobos-mobile-title'))fixMobileTitle()}).observe(root,{childList:true,subtree:true});}
+ fixMobileTitle();window.addEventListener('load',fixMobileTitle);
+})();
+</script>
 </body>
 </html>
