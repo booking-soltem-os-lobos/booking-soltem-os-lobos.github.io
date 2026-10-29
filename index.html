@@ -78,5 +78,67 @@ Error generating stack: `+p.message+`
 </script>
   <script>(function(){function m(a){var h=a.getAttribute("href");if(!h)return;try{var u=new URL(h,document.baseURI);if((u.protocol==="http:"||u.protocol==="https:")&&u.host!==location.host){a.target="_blank";a.rel="noopener noreferrer";}}catch(e){}}function s(){document.querySelectorAll("a[href]").forEach(m);}if(document.readyState!=="loading"){s();}else{document.addEventListener("DOMContentLoaded",s);}document.addEventListener("click",function(e){var a=e.target&&e.target.closest&&e.target.closest("a[href]");if(a){m(a);}},true);})();</script>
   
+<style id="lobos-orcamento-css">
+#lobos-orcamento-open{background:#fff;color:#111;border:1px solid #ddd;border-radius:999px;padding:12px 19px;font:800 12px system-ui,sans-serif;letter-spacing:.09em;cursor:pointer;white-space:nowrap}
+#lobos-orcamento-open:hover{background:#ddd}
+#lobos-orcamento-modal[hidden],#lobos-outro-wrap[hidden]{display:none!important}
+#lobos-orcamento-modal{position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,.84);display:flex;justify-content:center;align-items:center;padding:16px;overflow:auto}
+#lobos-orcamento-dialog{position:relative;background:#171717;color:#f5f5f5;border:1px solid #484848;border-radius:18px;width:min(100%,540px);max-height:94vh;overflow:auto;padding:25px;font:15px system-ui,sans-serif;box-shadow:0 20px 80px #000}
+#lobos-orcamento-dialog h2{font-size:24px;font-weight:800;margin:0 0 6px}#lobos-orcamento-dialog p{color:#bbb;margin:0 0 16px;font-size:13px}
+#lobos-orcamento-dialog label{display:block;font-weight:650;font-size:13px;margin:13px 0 5px}
+#lobos-orcamento-dialog input,#lobos-orcamento-dialog select,#lobos-orcamento-dialog textarea{width:100%;border:1px solid #555;border-radius:9px;background:#242424;color:white;padding:11px;font:15px system-ui,sans-serif;outline-offset:2px}
+#lobos-orcamento-dialog textarea{min-height:76px;resize:vertical}#lobos-orcamento-dialog input:focus,#lobos-orcamento-dialog select:focus,#lobos-orcamento-dialog textarea:focus{border-color:white}
+#lobos-orcamento-close{position:absolute;right:14px;top:12px;border:0;background:transparent;color:#fff;font-size:29px;cursor:pointer}
+#lobos-orcamento-send{width:100%;margin-top:18px;border:0;background:#25d366;color:#0c1710;border-radius:11px;padding:14px;font-weight:800;font-size:15px;cursor:pointer}
+#lobos-orcamento-dialog small{display:block;color:#aaa;font-size:12px;margin-top:10px}
+@media(max-width:560px){#lobos-orcamento-dialog{padding:19px}#lobos-orcamento-open{width:100%}}
+</style>
+<div id="lobos-orcamento-modal" hidden aria-hidden="true">
+ <section id="lobos-orcamento-dialog" role="dialog" aria-modal="true" aria-labelledby="lobos-orcamento-title">
+  <button id="lobos-orcamento-close" type="button" aria-label="Fechar formulário">×</button>
+  <h2 id="lobos-orcamento-title">🐺 Pedir orçamento</h2>
+  <p>Soltem os Lobos · Música ao vivo para o teu evento</p>
+  <form id="lobos-orcamento-form">
+   <label for="lobos-nome">Nome / Entidade organizadora *</label><input id="lobos-nome" name="nome" required maxlength="120" autocomplete="name">
+   <label for="lobos-contacto">Contacto (telefone ou email) *</label><input id="lobos-contacto" name="contacto" required maxlength="120">
+   <label for="lobos-tipo">Tipo de evento *</label><select id="lobos-tipo" name="tipo" required><option value="Festa privada">Festa privada</option><option value="Bar / Restaurante">Bar / Restaurante</option><option value="Festa popular / Associação">Festa popular / Associação</option><option value="Evento empresarial">Evento empresarial</option><option value="Outro">Outro</option></select>
+   <div id="lobos-outro-wrap" hidden><label for="lobos-outro">Especifica o tipo de evento *</label><input id="lobos-outro" name="outro" maxlength="120" placeholder="Ex.: Festival, casamento, aniversário..."></div>
+   <label for="lobos-data">Data prevista</label><input id="lobos-data" name="data" type="date">
+   <label for="lobos-local">Local do evento *</label><input id="lobos-local" name="local" required maxlength="160" placeholder="Localidade e espaço">
+   <label for="lobos-hora">Horário previsto</label><input id="lobos-hora" name="hora" maxlength="80" placeholder="Ex.: 21h30">
+   <label for="lobos-obs">Informações adicionais</label><textarea id="lobos-obs" name="obs" maxlength="1000" placeholder="Duração pretendida, condições do espaço, outros detalhes..."></textarea>
+   <button id="lobos-orcamento-send" type="submit">Enviar pedido pelo WhatsApp</button>
+   <small>Será aberta uma conversa no WhatsApp com a mensagem preparada. O envio só acontece depois da tua confirmação.</small>
+  </form>
+ </section>
+</div>
+<script id="lobos-orcamento-js">
+(function(){
+ const modal=document.getElementById('lobos-orcamento-modal'), form=document.getElementById('lobos-orcamento-form'),tipo=document.getElementById('lobos-tipo'),outro=document.getElementById('lobos-outro'),wrap=document.getElementById('lobos-outro-wrap');
+ let previousFocus=null;
+ function toggleOutro(){const enabled=tipo.value==='Outro';wrap.hidden=!enabled;outro.required=enabled;if(!enabled)outro.value='';}
+ tipo.addEventListener('change',toggleOutro);toggleOutro();
+ function close(){modal.hidden=true;modal.setAttribute('aria-hidden','true');document.body.style.overflow='';if(previousFocus)previousFocus.focus();}
+ function open(){previousFocus=document.activeElement;modal.hidden=false;modal.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';document.getElementById('lobos-nome').focus();}
+ document.getElementById('lobos-orcamento-close').addEventListener('click',close);
+ modal.addEventListener('click',e=>{if(e.target===modal)close();});
+ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!modal.hidden)close();});
+ form.addEventListener('submit',e=>{
+  e.preventDefault();if(!form.reportValidity())return;
+  const v=id=>document.getElementById('lobos-'+id).value.trim();
+  const msg=['🐺 PEDIDO DE ORÇAMENTO — SOLTEM OS LOBOS','','Nome / Entidade: '+v('nome'),'Contacto: '+v('contacto'),'Tipo de evento: '+(tipo.value==='Outro'?v('outro'):tipo.value),'Data: '+(v('data')||'A combinar'),'Local: '+v('local'),'Horário: '+(v('hora')||'A combinar'),'Observações: '+(v('obs')||'Sem observações'),'','Gostaria de receber informações sobre disponibilidade e orçamento.'].join('\n');
+  window.location.href='https://wa.me/351938066695?text='+encodeURIComponent(msg);
+ });
+ function addButton(){
+  if(document.getElementById('lobos-orcamento-open'))return;
+  const whatsapp=document.querySelector('a[href*="wa.me/351938066695"]');
+  if(!whatsapp)return;
+  const button=document.createElement('button');button.id='lobos-orcamento-open';button.type='button';button.textContent='PEDIR ORÇAMENTO';button.addEventListener('click',open);
+  whatsapp.parentElement.insertBefore(button,whatsapp);
+  const parent=whatsapp.parentElement;parent.style.flexWrap='wrap';
+ }
+ addButton();const observer=new MutationObserver(addButton);observer.observe(document.getElementById('root'),{childList:true,subtree:true});
+})();
+</script>
 </body>
 </html>
