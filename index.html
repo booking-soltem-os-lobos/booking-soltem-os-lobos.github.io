@@ -79,6 +79,16 @@ Error generating stack: `+p.message+`
   <script>(function(){function m(a){var h=a.getAttribute("href");if(!h)return;try{var u=new URL(h,document.baseURI);if((u.protocol==="http:"||u.protocol==="https:")&&u.host!==location.host){a.target="_blank";a.rel="noopener noreferrer";}}catch(e){}}function s(){document.querySelectorAll("a[href]").forEach(m);}if(document.readyState!=="loading"){s();}else{document.addEventListener("DOMContentLoaded",s);}document.addEventListener("click",function(e){var a=e.target&&e.target.closest&&e.target.closest("a[href]");if(a){m(a);}},true);})();</script>
   
 <style id="lobos-orcamento-css">
+/* O cartão de contacto organiza-se sempre em linhas independentes. */
+#lobos-orcamento-action-row{display:flex;justify-content:stretch;width:100%;margin-top:0;clear:both;}
+#lobos-orcamento-action-row #lobos-orcamento-open{width:100%;min-height:46px;}
+/* A classe original usa flex-row em ecrãs largos; impedir que comprima o texto. */
+#root div:has(> #lobos-orcamento-action-row){display:flex!important;flex-direction:column!important;align-items:stretch!important;justify-content:flex-start!important;gap:16px!important;}
+#root div:has(> #lobos-orcamento-action-row) > div:first-child{width:100%;min-width:0!important;}
+#root div:has(> #lobos-orcamento-action-row) > div:nth-child(2){width:100%;display:flex!important;flex-wrap:wrap!important;gap:10px!important;justify-content:flex-start!important;}
+#root div:has(> #lobos-orcamento-action-row) > div:nth-child(2) > *{flex:1 1 160px;justify-content:center;text-align:center;white-space:nowrap;}
+#root div:has(> #lobos-orcamento-action-row) > div:first-child .mono{white-space:normal;}
+
 #lobos-orcamento-open{background:#fff;color:#111;border:1px solid #ddd;border-radius:999px;padding:12px 19px;font:800 12px system-ui,sans-serif;letter-spacing:.09em;cursor:pointer;white-space:nowrap}
 #lobos-orcamento-open:hover{background:#ddd}
 #lobos-orcamento-modal[hidden],#lobos-outro-wrap[hidden]{display:none!important}
@@ -91,7 +101,7 @@ Error generating stack: `+p.message+`
 #lobos-orcamento-close{position:absolute;right:14px;top:12px;border:0;background:transparent;color:#fff;font-size:29px;cursor:pointer}
 #lobos-orcamento-send{width:100%;margin-top:18px;border:0;background:#25d366;color:#0c1710;border-radius:11px;padding:14px;font-weight:800;font-size:15px;cursor:pointer}
 #lobos-orcamento-dialog small{display:block;color:#aaa;font-size:12px;margin-top:10px}
-@media(max-width:560px){#lobos-orcamento-dialog{padding:19px}#lobos-orcamento-open{width:100%}}
+@media(max-width:560px){#lobos-orcamento-dialog{padding:19px}}
 </style>
 <div id="lobos-orcamento-modal" hidden aria-hidden="true">
  <section id="lobos-orcamento-dialog" role="dialog" aria-modal="true" aria-labelledby="lobos-orcamento-title">
@@ -133,11 +143,131 @@ Error generating stack: `+p.message+`
   if(document.getElementById('lobos-orcamento-open'))return;
   const whatsapp=document.querySelector('a[href*="wa.me/351938066695"]');
   if(!whatsapp)return;
-  const button=document.createElement('button');button.id='lobos-orcamento-open';button.type='button';button.textContent='PEDIR ORÇAMENTO';button.addEventListener('click',open);
-  whatsapp.parentElement.insertBefore(button,whatsapp);
-  const parent=whatsapp.parentElement;parent.style.flexWrap='wrap';
+  const actions=whatsapp.parentElement;
+   const wrapper=document.createElement('div');
+  wrapper.id='lobos-orcamento-action-row';
+  const button=document.createElement('button');
+  button.id='lobos-orcamento-open';button.type='button';
+  button.textContent='PEDIR ORÇAMENTO';button.addEventListener('click',open);
+  wrapper.appendChild(button);
+  actions.insertAdjacentElement('afterend',wrapper);
  }
  addButton();const observer=new MutationObserver(addButton);observer.observe(document.getElementById('root'),{childList:true,subtree:true});
+})();
+</script>
+
+<style id="lobos-hero-balance-css">
+/* Cartão de contratação sob a fotografia, preservando a estrutura do site. */
+#lobos-booking-card-under-photo{margin-top:22px;position:relative;z-index:2;width:100%;}
+#lobos-booking-card-under-photo > .lobos-booking-card{width:100%;}
+@media(max-width:1023px){#lobos-booking-card-under-photo{margin-top:18px}}
+</style>
+<script id="lobos-hero-balance-js">
+(function(){
+ function repositionBooking(){
+   const btn=document.getElementById('lobos-orcamento-open');
+   if(!btn)return;
+   const card=btn.closest('.bg-white');
+   if(!card || card.classList.contains('lobos-booking-card'))return;
+   const root=document.getElementById('root');
+   const photo=root && root.querySelector('img[alt="Soltem Os Lobos"]');
+   if(!photo)return;
+   const photoColumn=photo.closest('.relative.group');
+   if(!photoColumn)return;
+   let holder=document.getElementById('lobos-booking-card-under-photo');
+   if(!holder){holder=document.createElement('div');holder.id='lobos-booking-card-under-photo';photoColumn.appendChild(holder);}
+   card.classList.add('lobos-booking-card');
+   holder.appendChild(card);
+ }
+ repositionBooking();
+ const root=document.getElementById('root');
+ if(root){const observer=new MutationObserver(repositionBooking);observer.observe(root,{childList:true,subtree:true});}
+})();
+</script>
+
+<style id="lobos-experiencia-css">
+#lobos-experiencia{margin-top:24px;background:#18181b;border:1px solid #303036;border-radius:18px;padding:24px;color:#fafafa;box-shadow:0 8px 28px rgba(0,0,0,.12)}
+#lobos-experiencia .lobos-exp-heading{display:flex;align-items:center;gap:11px;font-weight:900;font-size:16px;letter-spacing:.08em;line-height:1.35}
+#lobos-experiencia .lobos-exp-heading svg{flex:none;width:23px;height:23px;stroke:#fff}
+#lobos-experiencia .lobos-exp-intro{font-size:14px;color:#c4c4ca;line-height:1.65;margin:15px 0 17px}
+#lobos-experiencia .lobos-exp-feature{display:flex;gap:14px;align-items:flex-start;padding:13px 0;border-top:1px solid #34343b}
+#lobos-experiencia .lobos-exp-icon{display:flex;align-items:center;justify-content:center;flex:0 0 43px;height:43px;border-radius:12px;background:#29292f;color:white;font-size:20px}
+#lobos-experiencia .lobos-exp-feature strong{display:block;font-size:14px;margin-bottom:4px}
+#lobos-experiencia .lobos-exp-feature p{color:#a8a8b1;font-size:13px;line-height:1.5;margin:0}
+#lobos-experiencia .lobos-exp-ending{border-top:1px solid #34343b;margin-top:7px;padding-top:18px;text-align:center;font-weight:800;font-size:14px;letter-spacing:.025em}
+@media(max-width:600px){#lobos-experiencia{padding:19px;margin-top:20px}}
+</style>
+<script id="lobos-experiencia-js">
+(function(){
+ function addExperience(){
+  if(document.getElementById('lobos-experiencia'))return;
+  const root=document.getElementById('root');if(!root)return;
+  const chips=[...root.querySelectorAll('span')];
+  const chip=chips.find(el=>el.textContent.trim()==='Formato compacto');
+  if(!chip)return;
+  const chipRow=chip.parentElement;
+  if(!chipRow || !chipRow.classList.contains('flex'))return;
+  const panel=document.createElement('section');panel.id='lobos-experiencia';
+  panel.setAttribute('aria-label','O que podes esperar dos Soltem os Lobos');
+  panel.innerHTML=`<div class="lobos-exp-heading"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 10v4M6 6v12M10 3v18M14 7v10M18 5v14M22 10v4"/></svg><span>MAIS DO QUE UM CONCERTO</span></div>
+  <p class="lobos-exp-intro">Há músicas que não precisam de apresentação. Bastam os primeiros acordes para toda a gente começar a cantar.</p>
+  <div class="lobos-exp-feature"><span class="lobos-exp-icon" aria-hidden="true">♫</span><div><strong>100% ao vivo</strong><p>Duas guitarras, duas vozes. Sem playback, sem truques.</p></div></div>
+  <div class="lobos-exp-feature"><span class="lobos-exp-icon" aria-hidden="true">♬</span><div><strong>Um repertório sem fronteiras</strong><p>Do rock aos grandes clássicos, passando pela música portuguesa e brasileira.</p></div></div>
+  <div class="lobos-exp-feature"><span class="lobos-exp-icon" aria-hidden="true">★</span><div><strong>O público faz parte</strong><p>Canções para ouvir, recordar e cantar em conjunto.</p></div></div>
+  <div class="lobos-exp-feature"><span class="lobos-exp-icon" aria-hidden="true">♩</span><div><strong>Um espetáculo que se adapta</strong><p>De ambientes intimistas a festas e eventos com mais energia.</p></div></div>
+  <div class="lobos-exp-ending">Hoje é noite de Rock e não só!</div>`;
+  chipRow.insertAdjacentElement('afterend',panel);
+ }
+ addExperience();
+ const root=document.getElementById('root');if(root){const observer=new MutationObserver(addExperience);observer.observe(root,{childList:true,subtree:true});}
+})();
+</script>
+
+<style id="lobos-atitude-css">
+#lobos-atitude{box-sizing:border-box;margin-top:18px;padding:20px 24px;border:1px solid #35353a;border-radius:17px;background:linear-gradient(125deg,#17171a 0%,#090909 70%);color:#fff;overflow:hidden;display:none;flex-direction:column;justify-content:center;position:relative;min-height:0}
+#lobos-atitude::before{content:"";position:absolute;top:0;left:24px;width:70px;height:3px;background:#fff}
+#lobos-atitude .lobos-atitude-title{font-weight:950;letter-spacing:-.035em;line-height:1.03;font-size:clamp(25px,2.35vw,43px);text-transform:uppercase;margin:0 0 10px}
+#lobos-atitude .lobos-atitude-sub{font-size:13px;color:#bcbcc2;line-height:1.45;margin:0 0 12px}
+#lobos-atitude .lobos-atitude-sign{display:flex;align-items:center;gap:10px;font-weight:800;font-size:11px;letter-spacing:.17em;color:#d6d6dc}
+#lobos-atitude .lobos-atitude-sign::before{content:"";height:2px;width:34px;background:#fff;flex:none}
+@media(max-width:1023px){#lobos-atitude{display:flex!important;height:auto!important;max-height:none!important;padding:20px 22px}#lobos-atitude .lobos-atitude-title{font-size:clamp(26px,6vw,38px)}}
+@media(min-width:1024px){#lobos-atitude[data-compact="true"]{padding:12px 20px}#lobos-atitude[data-compact="true"] .lobos-atitude-title{font-size:26px;margin-bottom:5px}#lobos-atitude[data-compact="true"] .lobos-atitude-sub{font-size:12px;margin-bottom:7px}}
+</style>
+<script id="lobos-atitude-js">
+(function(){
+ let running=false;
+ function fitAtitude(){
+  if(running)return;
+  running=true;
+  try{
+   const holder=document.getElementById('lobos-booking-card-under-photo');
+   const card=holder&&holder.querySelector('.lobos-booking-card');
+   const right=document.getElementById('lobos-experiencia');
+   if(!holder||!card||!right)return;
+   let panel=document.getElementById('lobos-atitude');
+   if(!panel){
+    panel=document.createElement('section');panel.id='lobos-atitude';
+    panel.setAttribute('aria-label','A atitude dos Soltem os Lobos');
+    panel.innerHTML='<h2 class="lobos-atitude-title">NÃO É SÓ MÚSICA.<br>É ATITUDE.</h2><p class="lobos-atitude-sub">Do primeiro acorde ao último refrão, há noites que não se esquecem.</p><div class="lobos-atitude-sign">SOLTEM OS LOBOS</div>';
+    holder.appendChild(panel);
+   }
+   if(window.matchMedia('(max-width:1023px)').matches){panel.style.removeProperty('height');panel.style.removeProperty('max-height');panel.style.removeProperty('display');panel.dataset.compact='false';return;}
+   // A altura disponível é medida até ao fundo do cartão da coluna direita.
+   // Nunca se acrescenta altura à linha principal por causa deste bloco.
+   const cardBottom=card.getBoundingClientRect().bottom;
+   const rightBottom=right.getBoundingClientRect().bottom;
+   const available=Math.floor(rightBottom-cardBottom-18);
+   if(available<105){panel.style.display='none';return;}
+   panel.style.display='flex';panel.style.height=Math.min(available,240)+'px';
+   panel.style.maxHeight=Math.min(available,240)+'px';
+   panel.dataset.compact=available<180?'true':'false';
+  }finally{running=false;}
+ }
+ const root=document.getElementById('root');
+ if(root){new MutationObserver(()=>{if(!document.getElementById('lobos-atitude'))fitAtitude();}).observe(root,{childList:true,subtree:true});}
+ window.addEventListener('resize',fitAtitude,{passive:true});
+ window.addEventListener('load',fitAtitude);
+ requestAnimationFrame(()=>requestAnimationFrame(fitAtitude));
 })();
 </script>
 </body>
