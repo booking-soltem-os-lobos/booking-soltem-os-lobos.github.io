@@ -150,6 +150,14 @@ Error generating stack: `+p.message+`
   button.id='lobos-orcamento-open';button.type='button';
   button.textContent='PEDIR ORÇAMENTO';button.addEventListener('click',open);
   wrapper.appendChild(button);
+  const dossier=document.createElement('a');
+  dossier.id='lobos-dossier-download';
+  dossier.href='./dossier/Soltem_os_Lobos_Dossier.pdf';
+  dossier.setAttribute('download','Soltem_os_Lobos_Dossier.pdf');
+  dossier.setAttribute('type','application/pdf');
+  dossier.setAttribute('aria-label','Descarregar dossier de apresentação em PDF');
+  dossier.textContent='↓ DOSSIER DE APRESENTAÇÃO';
+  wrapper.appendChild(dossier);
   actions.insertAdjacentElement('afterend',wrapper);
  }
  addButton();const observer=new MutationObserver(addButton);observer.observe(document.getElementById('root'),{childList:true,subtree:true});
@@ -349,6 +357,21 @@ html, body { background-color:#090909; }
 #lobos-copyright-footer * { color:#ffffff !important; }
 @media(max-width:640px) {
   #lobos-copyright-footer {padding:20px 14px 26px !important;font-size:11px !important;line-height:1.6 !important;}
+}
+</style>
+
+<style id="lobos-dossier-download-css">
+/* Botões na mesma linha: preserva a altura do cartão no desktop. */
+#lobos-orcamento-action-row{display:flex!important;flex-direction:row!important;align-items:stretch!important;gap:10px!important;min-width:0!important}
+#lobos-orcamento-action-row #lobos-orcamento-open,
+#lobos-orcamento-action-row #lobos-dossier-download{box-sizing:border-box!important;flex:1 1 0!important;width:0!important;min-width:0!important;min-height:46px!important;display:flex!important;align-items:center!important;justify-content:center!important;text-align:center!important;padding:9px 8px!important;font:800 clamp(9px,0.78vw,12px) system-ui,sans-serif!important;letter-spacing:.035em!important;line-height:1.2!important;border-radius:999px!important;white-space:normal!important;text-decoration:none!important}
+#lobos-orcamento-action-row #lobos-dossier-download{background:#111!important;color:#fff!important;border:1px solid #111!important;cursor:pointer!important}
+#lobos-orcamento-action-row #lobos-dossier-download:hover,
+#lobos-orcamento-action-row #lobos-dossier-download:focus-visible{background:#303036!important;color:#fff!important}
+@media(max-width:560px){
+ #lobos-orcamento-action-row{gap:8px!important}
+ #lobos-orcamento-action-row #lobos-orcamento-open,
+ #lobos-orcamento-action-row #lobos-dossier-download{font-size:10px!important;letter-spacing:0!important;padding:10px 6px!important}
 }
 </style>
 </body>
