@@ -319,5 +319,37 @@ Error generating stack: `+p.message+`
  fixMobileTitle();window.addEventListener('load',fixMobileTitle);
 })();
 </script>
+
+<style id="lobos-mobile-title-dark-fix">
+/* Correção exclusiva do cabeçalho móvel; desktop sem alterações. */
+@media (max-width:1023px){
+ #lobos-mobile-title{background:#0a0a0a!important;color:#fff!important;border-color:#0a0a0a!important;}
+ #lobos-mobile-title .brush-title,
+ #lobos-mobile-title .brush-title *,
+ #lobos-mobile-title h1{color:#fff!important;-webkit-text-fill-color:#fff!important;text-shadow:none!important;}
+ #lobos-mobile-title .lobos-mobile-badge{background:#18181b!important;color:#fff!important;border:1px solid #3f3f46!important;}
+ #lobos-mobile-title .lobos-mobile-dot{background:#fff!important;}
+}
+</style>
+<style id="lobos-footer-black-white-final">
+/* Rodapé preto e letras brancas em desktop e mobile. */
+html, body { background-color:#090909; }
+#lobos-copyright-footer {
+  box-sizing:border-box !important;
+  width:100% !important;
+  max-width:none !important;
+  margin:0 !important;
+  padding:24px 16px 30px !important;
+  background:#090909 !important;
+  color:#ffffff !important;
+  border-top:1px solid #292929 !important;
+  text-align:center !important;
+}
+#lobos-copyright-footer strong,
+#lobos-copyright-footer * { color:#ffffff !important; }
+@media(max-width:640px) {
+  #lobos-copyright-footer {padding:20px 14px 26px !important;font-size:11px !important;line-height:1.6 !important;}
+}
+</style>
 </body>
 </html>
