@@ -76,6 +76,26 @@
     </div>
   </section>
 
+
+  <!-- OUTRAS FOTOS & VÍDEOS -->
+  <section class="mb-6 border border-zinc-800 rounded-[18px] overflow-hidden bg-zinc-900/30">
+    <div class="flex flex-wrap items-center justify-between gap-4 p-5 md:p-6">
+      <div class="flex-1 min-w-[240px]">
+        <h2 class="stencil text-[13px] md:text-[14px] tracking-[0.15em] text-white leading-[1.3]">OUTRAS FOTOS &amp; VÍDEOS</h2>
+        <div id="count-outras" class="mono text-[11px] text-zinc-500 mt-1">a verificar ficheiros…</div>
+      </div>
+      <div class="flex items-center gap-3">
+        <span class="text-[10px] px-3 py-1 rounded-full bg-zinc-900 border border-zinc-800 text-zinc-400 stencil hidden md:inline">EXTRAS</span>
+        <button onclick="toggleConcert('outras')" id="btn-outras" class="h-[38px] px-6 rounded-full bg-white text-black text-[11px] stencil font-bold hover:bg-zinc-200 transition flex items-center gap-2">ABRIR <span id="icon-outras">↓</span></button>
+      </div>
+    </div>
+    <div id="content-outras" class="hidden-section border-t border-zinc-800 p-5 md:p-6 bg-zinc-950">
+      <div id="videos-outras" class="grid md:grid-cols-2 gap-4 mb-8"></div>
+      <div class="flex items-center gap-2 mb-3"><span class="stencil text-[11px] text-zinc-500">FOTOS • OUTRAS</span><span class="h-px flex-1 bg-zinc-800"></span></div>
+      <div id="fotos-outras" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3"></div>
+    </div>
+  </section>
+
   <div class="mt-16 rounded-[18px] bg-white text-black p-6 md:p-8 flex flex-col md:flex-row justify-between gap-4">
     <div><div class="stencil text-[10px] text-zinc-500">VISTE OS CONCERTOS?</div><div class="text-[22px] font-black stencil mt-1">SOLTEM OS LOBOS • AO VIVO</div></div>
     <a href="https://wa.me/351938066695?text=Ol%C3%A1%20Soltem%20os%20Lobos!%20Vi%20a%20galeria." target="_blank" class="h-[44px] px-6 rounded-full bg-black text-white text-[12px] stencil inline-flex items-center justify-center">PEDIR DISPONIBILIDADE</a>
@@ -146,7 +166,8 @@ function closeLightbox(){
 // Para acrescentar um ficheiro novo basta pô-lo na pasta com o número seguinte.
 const CONCERTS = {
   sabor:    { videos: 'videos/projeto_restaurante_sabor_de_minas/', fotos: 'fotos/projeto_restaurante_sabor_de_minas/' },
-  cristina: { videos: 'videos/concerto_para_a_cristina/',           fotos: 'fotos/concerto_para_a_cristina/' }
+  cristina: { videos: 'videos/concerto_para_a_cristina/',           fotos: 'fotos/concerto_para_a_cristina/' },
+  outras:   { videos: 'videos/outras_fotos_videos/',                 fotos: 'fotos/outras_fotos_videos/' }
 };
 const EXT_VIDEO = ['mp4', 'MP4', 'mov', 'MOV', 'webm'];
 const EXT_FOTO  = ['jpg', 'JPG', 'jpeg', 'JPEG', 'png', 'PNG', 'webp'];
